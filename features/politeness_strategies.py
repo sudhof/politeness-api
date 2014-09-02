@@ -3,10 +3,11 @@ import os
 import re
 from collections import defaultdict
 
-from stanford_core_nlp import StanfordCoreNLPWrapper
+#from stanford_core_nlp import StanfordCoreNLPWrapper
 
 DIR = os.path.split(__file__)[0]
-nlp = StanfordCoreNLPWrapper()
+#nlp = StanfordCoreNLPWrapper()
+nlp = False
 
 hedges = [
   "think", "thought", "thinking", "almost",

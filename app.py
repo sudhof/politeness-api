@@ -3,6 +3,8 @@ import os
 from flask import Flask
 from flask import render_template, request
 
+from politeness_model import score_politeness
+
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
@@ -17,10 +19,15 @@ def text_input_form():
 @app.route("/score-politeness", methods=['POST'])
 def send_question():
     text = request.form['text']
-    print "Would score"
+    print "Scoring"
     print text
-    score = 0.0
-    return render_template('politeness-result.html', text=text, score=score)
+    score = score_politeness(text)
+    # currently just binary, polite or not
+    if score == 1:
+        label = "Polite!"
+    else:
+        label = "Impolite!"
+    return render_template('politeness-result.html', text=text, label=label)
 
 
 if __name__ == "__main__":

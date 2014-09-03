@@ -18,5 +18,5 @@ def getbigrams(document, lasttwosents=False):
     #words=[]
     #for s in sents:
     #    words.extend(nltk.bigrams(nltk.word_tokenize(s)))
-    words = nlkt.bigrams(nltk.word_tokenize(document['text']))
+    words = nltk.bigrams(nltk.word_tokenize(document['text']))
     return words

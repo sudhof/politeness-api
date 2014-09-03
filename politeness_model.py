@@ -12,6 +12,7 @@ clf = cPickle.load(open("linear-svm.p"))
 vectorizer = FeatureVectorizer()
 
 print "Loaded model"
+print clf
 
 def score_politeness(text):
     features = vectorizer.features({"text": text})

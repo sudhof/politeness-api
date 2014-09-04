@@ -1,16 +1,31 @@
 <html>
   <head>
     <title>Politeness</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <style>
+      .polite {color: green;}
+      .impolite {color: red;}
+    </style>
+
+
   </head>
-  <body>
+  <body style="background-color:whitesmoke">
 
-      <h1>Politeness Score</h1>
+    <div class="container">
 
-      <p>Text:</p>
-      <p>{{text}}</p>
-      <p>Result:</p>
-      <p>{{label}}</p>
-
+      <div class="row">
+        <br />
+        <br />
+        <div class="jumbotron">
+          <h2>Politeness Analysis</h2>
+          <p><b>Request:</b>&nbsp;&nbsp;{{text}}</p>
+          <p>Your request is <span class="{{label}}">{{label}}</span> !</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
 

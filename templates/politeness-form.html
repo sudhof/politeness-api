@@ -1,17 +1,64 @@
 <html>
   <head>
     <title>Politeness</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <style>
+      .polite {color: green;}
+      .impolite {color: red;}
+      ul { list-style-type: none;}
+    </style>
+
   </head>
-  <body>
+  <body style="background-color:whitesmoke">
+    <div class="container">
 
-      <h1>Politeness Model - Web Interface</h1>
+    <div class="row">
+      <br />
+      <br />
+      <div class="jumbotron">
+          <h1>Are you polite?</h1>
+          <h4>Our model automatically measures the level of politeness requests you make.<br />Try it below, and read more about our work <a href="http://www.mpi-sws.org/~cristian/Politeness.html">here</a>.</h4>
 
-        <form action="/score-politeness" method="post">
+            <form action="/score-politeness" method="post">
 
-            <textarea name="text" rows="10" cols="40"></textarea>
-            <input type="submit" value="Score for politeness!">
+                <textarea name="text" rows="5" cols="60"></textarea>
+                <br />
+                <input class="btn" type="submit" value="Score for politeness!">
 
-        </form>
+            </form>
+
+          <h3>Sample Requests</h3>
+          <ul>
+            <li>
+              splendid work so far! do you have a copy of that reference or should I just use the library's? &nbsp;&nbsp; <span class="polite">Polite !</span>
+            </li>
+            <li>
+              how many times do i have to revert you before you stop? do you want to get blocked? &nbsp;&nbsp; <span class="impolite">Impolite !</span>
+            </li>
+            <li>
+              i'm afraid i don't know the reel - is it played in your part or the world? &nbsp;&nbsp; <span class="polite">Polite !</span>
+            </li>
+            <li>
+              that's the only answer you have? seriously? can't you do better? &nbsp;&nbsp; <span class="impolite">Impolite !</span>
+            </li>
+            <li>
+              thank you for the response. Would you be willing to add a few more details to explain further? &nbsp;&nbsp; <span class="polite">Polite !</span>
+            </li>
+          </ul>
+
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
 
   </body>
 </html>

@@ -13,8 +13,12 @@ def get_parse(text):
     r = requests.get(url)
     d = r.text
     d = d[d.find("[[u"):d.find("']]")+3]
-    dependencies = eval(d)
-    parse = [dp for s in dependencies for dp in s]
+    try:
+        dependencies = eval(d)
+        parse = [dp for s in dependencies for dp in s]
+    except:
+        print "Eval'ing dependencies failed; falling back to simple split"
+        parse = d[4:-3].split("', u'")
     return parse
 
 

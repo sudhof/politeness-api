@@ -1,22 +1,19 @@
 
+
+import os
 import nltk
 
-def getwords(document, lasttwosents=False):
-    #sents=nltk.sent_tokenize(document['text'])
-    #if lasttwosents:
-    #  sents=sents[-2:]
-    #words=[]
-    #for s in sents:
-    #    words.extend(nltk.word_tokenize(s))
-    words = nltk.word_tokenize(document['text'])
+
+def getwords(document):
+    words = []
+    for s in document['sentences']:
+        words.extend(nltk.word_tokenize(s))
     return words
 
+
 def getbigrams(document, lasttwosents=False):
-    #sents=nltk.sent_tokenize(document['text'])
-    #if lasttwosents:
-    #  sents=sents[-2:]
-    #words=[]
-    #for s in sents:
-    #    words.extend(nltk.bigrams(nltk.word_tokenize(s)))
-    words = nltk.bigrams(nltk.word_tokenize(document['text']))
+    words = []
+    for s in document['sentences']:
+        words.extend(nltk.bigrams(nltk.word_tokenize(s)))
     return words
+

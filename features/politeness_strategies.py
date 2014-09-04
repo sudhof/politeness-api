@@ -3,10 +3,7 @@ import os
 import re
 from collections import defaultdict
 
-#from stanford_core_nlp import StanfordCoreNLPWrapper
-
 DIR = os.path.split(__file__)[0]
-#nlp = StanfordCoreNLPWrapper()
 nlp = False
 
 hedges = [
@@ -122,7 +119,22 @@ funset = [
 
 
 def getPolitenessFeaturesFromParse(parse, verbose=False):
-  parse_string_list = nlp.getDependencyParseStringList(parse)
+  """
+  parse looks like this--
+    {
+      "sentences": ["sentence 1", "sentence 2"],
+      "parses": [
+        ["(dep 1)", "(dep 2)"],
+        ["(dep 1)", "(dep 2)"],
+      ],
+      "words": [
+        [toks, one],
+        [toks, two]
+      ]
+    }
+
+  """
+  parse_string_list = parse['parses']
   # parse_string_list looks like: [[u'root(ROOT-0, help-2)', u'discourse(help-2, Please-1)', u'dobj(help-2, me-3)', u'prt(help-2, out-4)', u'tmod(help-2, here-5)'], [u'root(ROOT-0, Hi-1)', u'appos(Hi-1, woops-3)', u'nsubj(appreciate-7, I-5)', u'advmod(appreciate-7, really-6)', u'dep(Hi-1, appreciate-7)', u'poss(honesty-10, your-8)', u'amod(honesty-10, unlikely-9)', u'dobj(appreciate-7, honesty-10)']]
   featurelist_dict = defaultdict(list)
   if len(parse['sentences']) == 0:
@@ -132,11 +144,12 @@ def getPolitenessFeaturesFromParse(parse, verbose=False):
     for f in all_politeness_features:
       result[f] = 0
     return result
+  wordslower = map(lambda x: x.lower(), parse['words'])
   for sentence_id in xrange(len(parse['sentences'])):
     # Fake dictionary with parse and text
     d = {}
     d['parse'] = parse_string_list[sentence_id]
-    d['text'] = parse['sentences'][sentence_id]['text']
+    d['text'] = parse['sentences'][sentence_id]
     if verbose:
       print '\t\t', sentence_id, d['text']
       print '\t\t', sentence_id, d['parse']
@@ -158,11 +171,24 @@ def getPolitenessFeaturesFromParse(parse, verbose=False):
 
 if __name__ == '__main__':
   
-  text = 'Please help me out here. Hi, woops, I really appreciate your unlikely honesty.'
-  nlp = StanfordCoreNLPWrapper()
-  parse = nlp.getParse(text)
-  f = getPolitenessFeaturesFromParse(parse)
-  print f
+  import re
+  from bow_features import getwords
+  from parse_api_interface import get_parse
+
+  text = 'Hi, woops, I really appreciate your unlikely honesty.'
+  
+  parse = get_parse(text)
+  print parse
+
+  document = {
+    "sentences": [text],
+    "parses": [parse],
+    "words": getwords({'sentences': [text]})
+  }
+
+  print document
+
+  f = getPolitenessFeaturesFromParse(document)
 
   print sorted(f.keys())
 

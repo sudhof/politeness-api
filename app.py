@@ -20,6 +20,12 @@ def hello():
 def text_input_form():
     return render_template("politeness-form.html")
 
+
+@app.route("/get-politeness")
+def text_input_form2():
+    return render_template("politeness-form.html")
+
+
 @app.route("/score-politeness", methods=['POST'])
 def send_question():
     text = request.form['text']

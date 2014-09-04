@@ -10,6 +10,7 @@ from scipy.sparse import csr_matrix
 from sklearn.metrics import classification_report
 
 from features.vectorizer import FeatureVectorizer
+from datasets import get_training_data
 
 # Training a simple SVM
 # anything < 0.0 is not polite
@@ -19,36 +20,6 @@ from features.vectorizer import FeatureVectorizer
 
 DATA_DIR = "data"
 MODEL_PATH = "linear-svm.p"
-
-
-def load_labeled_data():
-    files = ["stack-exchange.annotated.csv", "wikipedia.annotated.csv"]
-    documents = []
-    err = 0
-    for f in files:
-        reader = csv.DictReader(open(os.path.join(DATA_DIR, f), "rU"))
-        for row in reader:
-            try:
-                documents.append({"text": row['Request'], "score": float(row['Normalized Score'])})
-            except:
-                err += 1
-    print "Couldn't load %d documents due to CSV error" % err
-    documents = keep_extreme_quartiles(documents)
-    return documents
-
-
-def keep_extreme_quartiles(documents):
-    # Only the bottom quartile is impolite,
-    # the top quartile polite.
-    # Toss the rest
-    documents.sort(key=lambda x: x['score'])
-    l = len(documents)
-    impolite = documents[:l/4]
-    polite = documents[-l/4:]
-    documents = impolite + polite
-    random.shuffle(documents)
-    return documents
-
 
 def documents2feature_vectors(documents):
     vectorizer = FeatureVectorizer(documents=documents)
@@ -71,7 +42,7 @@ def documents2feature_vectors(documents):
     return X, y
 
 
-documents = load_labeled_data()
+documents = get_training_data()
 print "%d documents" % len(documents)
 
 X, y = documents2feature_vectors(documents)
@@ -94,15 +65,5 @@ cPickle.dump(clf, open(MODEL_PATH, 'w'))
 print "Evaluating"
 y_pred = clf.predict(Xtest)
 print(classification_report(ytest, y_pred))
-
-
-
-
-
-
-
-
-
-
 
 

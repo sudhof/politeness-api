@@ -20,8 +20,8 @@ def score_politeness(text):
     X = csr_matrix(np.asarray([fv]))
     print "Predicting"
     y_pred = clf.predict(X)
-    #y_pred = [1]
-    print str(y_pred)
+    #scores = clf.decision_function(X)
+    #print str(scores)
     return y_pred[0]
 
 

@@ -8,25 +8,27 @@ from politeness_model import score_politeness
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
+
+
+"""
 @app.route("/")
 def hello():
     return "Hello world, it's the Politeness Classifier!"
+"""
 
-@app.route("/get-politeness")
+@app.route("/")
 def text_input_form():
     return render_template("politeness-form.html")
 
 @app.route("/score-politeness", methods=['POST'])
 def send_question():
     text = request.form['text']
-    print "Scoring"
-    print text
     score = score_politeness(text)
     # currently just binary, polite or not
     if score == 1:
-        label = "Polite!"
+        label = "Polite"
     else:
-        label = "Impolite!"
+        label = "Impolite"
     return render_template('politeness-result.html', text=text, label=label)
 
 

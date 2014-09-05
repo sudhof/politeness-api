@@ -33,15 +33,15 @@ def score_text():
     probs = score_politeness(text)
 
     # Based on probs, determine label and confidence
-    if probs['polite'] > 0.65:
+    if probs['polite'] > 0.6:
         l = "polite"
         confidence = probs['polite']
-    elif probs['impolite'] > 0.65:
+    elif probs['impolite'] > 0.6:
         l = "impolite"
         confidence = probs['impolite']
     else:
         l = "neutral"
-        confidence = 1.0 - math.fabs(probs['polite'] - 0.5) 
+        confidence = 1.0 - math.fabs(probs['polite'] - 0.5) - 0.1
 
     confidence = "%.2f" % confidence
 

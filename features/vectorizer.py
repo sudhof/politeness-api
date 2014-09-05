@@ -17,7 +17,7 @@ class FeatureVectorizer:
 
     # Currently just unigram, bigram features
 
-    def __init__(self, documents=False, minwords=20, minbigrams=10, minparse=20, minparserel=20, minwordloc=20):
+    def __init__(self, documents=False, minwords=20, minbigrams=20, minparse=20, minparserel=20, minwordloc=20):
         # If we get documents on initialization, we seed the features
         # otherwise, we expect featwords and featbigrams to be pickled nearby
         

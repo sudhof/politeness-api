@@ -61,9 +61,11 @@ X, Xtest = csr_matrix(X), csr_matrix(Xtest)
 
 print "Fitting"
 
-clf = svm.SVC(C=100, cache_size=200, class_weight=None, coef0=0.0, degree=3,
-  gamma=0.001, kernel='rbf', max_iter=-1, probability=True,
-  random_state=None, shrinking=True, tol=0.001, verbose=False)
+#clf = svm.SVC(C=100, cache_size=200, class_weight=None, coef0=0.0, degree=3,
+#  gamma=0.001, kernel='rbf', max_iter=-1, probability=True,
+#  random_state=None, shrinking=True, tol=0.001, verbose=False)
+
+clf = svm.SVC(C=0.02, kernel='linear',probability=True)
 clf.fit(X, y)
 
 print "Pickling"

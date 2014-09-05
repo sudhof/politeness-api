@@ -7,8 +7,9 @@ from scipy.sparse import csr_matrix
 
 from features.vectorizer import FeatureVectorizer
 
+MODELNAME = "politeness-svm.p"
 
-clf = cPickle.load(open("politeness-svm.p"))
+clf = cPickle.load(open(MODELNAME))
 vectorizer = FeatureVectorizer()
 
 print "Loaded model"

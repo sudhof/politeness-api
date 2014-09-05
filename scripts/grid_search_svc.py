@@ -60,9 +60,7 @@ X_train, X_test = csr_matrix(X_train), csr_matrix(X_test)
 
 # Set the parameters by cross-validation
 tuned_parameters = [
-                {'kernel': ['poly'], 'gamma': [1e-3, 1e-4], 'degree': [2,3],  
-                     'C': [1, 10, 100, 1000]},                     
-                {'kernel': ['linear'], 'C': [0.02, 1, 10, 100]},
+                {'kernel': ['linear'], 'C': [0.001, 0.01, 0.02, 1, 10, 100]},
                 {'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
                      'C': [1, 10, 100, 1000]}
 ]

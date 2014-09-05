@@ -133,7 +133,7 @@
             } else if (data.label == "impolite") {
               labelclass = "label-danger";
             }
-            $("#label").addClass(labelclass);
+            $("#label").removeClass("label-success label-warning label-danger").addClass(labelclass);
             $("#label").html(data.label);
             $("#confidence").html("Confidence: ".concat(data.confidence));
             $("#scored-txt").html(data.text);

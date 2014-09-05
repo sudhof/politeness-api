@@ -9,10 +9,12 @@ DATA_DIR = "data"
 ##############################################################################
 # For loading pickled, pre-processed documents
 
-def get_training_data():
-    filename = os.path.join(DATA_DIR, "training-data.p")
-    return cPickle.load(open(filename, 'r'))
+#TRAINING_DATA_FILENAME = "training-data.p"
+TRAINING_DATA_FILENAME = "training-data-corenlp-parses.p"
 
+def get_training_data():
+    filename = os.path.join(DATA_DIR, TRAINING_DATA_FILENAME)
+    return cPickle.load(open(filename, 'r'))
 
 
 ##############################################################################

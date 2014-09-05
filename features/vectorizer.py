@@ -17,24 +17,23 @@ class FeatureVectorizer:
 
     # Currently just unigram, bigram features
 
-    def __init__(self, documents=False, minwords=20, minbigrams=20, minparse=20, minparserel=20, minwordloc=20):
+    def __init__(self, documents=False, minwords=20, minbigrams=10, minparse=20, minparserel=20, minwordloc=20):
         # If we get documents on initialization, we seed the features
         # otherwise, we expect featwords and featbigrams to be pickled nearby
         
-        """
+        
         if os.path.exists(os.path.join(DIR, "featwords.p")):
             self.featwords = cPickle.load(open(os.path.join(DIR, "featwords.p")))
             self.featbigrams = cPickle.load(open(os.path.join(DIR, "featbigrams.p")))
         else:            
             self._compute_words_and_bigrams(documents, minwords, minbigrams)
         """
-
         if documents:
             self._compute_words_and_bigrams(documents, minwords, minbigrams)
         else:
             self.featwords = cPickle.load(open(os.path.join(DIR, "featwords.p")))
             self.featbigrams = cPickle.load(open(os.path.join(DIR, "featbigrams.p")))
-
+        """
         print "Features: %d unigram, %d bigrams" % (len(self.featwords), len(self.featbigrams))
 
 

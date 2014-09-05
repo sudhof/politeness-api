@@ -24,6 +24,8 @@ for d in docs:
 
 for t, p1, p2 in zip(docs, parse1, parse2):
     print t
+    
+    """
     d = {
         "sentences": [t],
         "parses": [p1], 
@@ -39,6 +41,9 @@ for t, p1, p2 in zip(docs, parse1, parse2):
             print "Good! ", k
         if f1[k] != f2[k]:
             print "\nERR: ", k
+    """
+    print sorted(list(p1))
+    print sorted(list(p2))
 
     """
     p1 = set(p1)
@@ -49,4 +54,5 @@ for t, p1, p2 in zip(docs, parse1, parse2):
         print filter(lambda x: x not in p2, list(p1))
         print filter(lambda x: x not in p1, list(p2))
     """
+    
 

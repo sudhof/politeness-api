@@ -49,6 +49,7 @@ X, y = documents2feature_vectors(documents)
 
 Xtest, ytest = X[-500:], y[-500:]
 X, y = X[:-500], y[:-500]
+cPickle.dump({"X": Xtest, "y": ytest}, open("sparse-testing.p", 'w'))
 
 print "%d training, %d testing" % (len(X), len(Xtest))
 
@@ -56,7 +57,10 @@ X, Xtest = csr_matrix(X), csr_matrix(Xtest)
 
 print "Fitting"
 
-clf = svm.SVC(C=100.0, kernel='linear')
+#clf = svm.SVC(C=100.0, kernel='linear')
+clf = svm.SVC(C=100, cache_size=200, class_weight=None, coef0=0.0, degree=3,
+  gamma=0.001, kernel='rbf', max_iter=-1, probability=True,
+  random_state=None, shrinking=True, tol=0.001, verbose=False)
 clf.fit(X, y)
 
 print "Pickling"

@@ -19,7 +19,16 @@ def score_politeness(text):
     fv = [features[f] for f in sorted(features.iterkeys())]
     X = csr_matrix(np.asarray([fv]))
     print "Predicting"
+    print "Text"
     y_pred = clf.predict(X)
+    l = "polite"
+    if y_pred[0] == 0:
+        l = "impolite"
+    print l
+    probs = clf.predict_proba(X)
+    probs = probs[0]
+    print "Class 0: ", probs[0]
+    print "Class 1: ", probs[1]
     #scores = clf.decision_function(X)
     #print str(scores)
     return y_pred[0]

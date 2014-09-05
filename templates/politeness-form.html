@@ -135,7 +135,11 @@
             }
             $("#label").removeClass("label-success label-warning label-danger").addClass(labelclass);
             $("#label").html(data.label);
-            $("#confidence").html("Confidence: ".concat(data.confidence));
+            if (data.label == "neutral") {
+              $("#confidence").html("");
+            } else {
+              $("#confidence").html("Confidence: ".concat(data.confidence));
+            }
             $("#scored-txt").html(data.text);
 
             $("#result-box").slideDown();

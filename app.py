@@ -41,7 +41,7 @@ def score_text():
         confidence = probs['impolite']
     else:
         l = "neutral"
-        confidence = 1.0 - math.fabs(probs['polite'] - 0.5) - 0.1
+        confidence = 1.0 - math.fabs(probs['polite'] - 0.5)
 
     confidence = "%.2f" % confidence
 

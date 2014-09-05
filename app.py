@@ -1,7 +1,8 @@
 
 import os
+import math
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, jsonify
 
 from politeness_model import score_politeness
 
@@ -27,15 +28,25 @@ def text_input_form2():
 
 
 @app.route("/score-politeness", methods=['POST'])
-def send_question():
+def score_text():
     text = request.form['text']
-    score = score_politeness(text)
-    # currently just binary, polite or not
-    if score == 1:
-        label = "Polite"
+    probs = score_politeness(text)
+
+    # Based on probs, determine label and confidence
+    if probs['polite'] > 0.65:
+        l = "polite"
+        confidence = probs['polite']
+    elif probs['impolite'] > 0.65:
+        l = "impolite"
+        confidence = probs['impolite']
     else:
-        label = "Impolite"
-    return render_template('politeness-result.html', text=text, label=label)
+        l = "neutral"
+        confidence = 1.0 - math.fabs(probs['polite'] - 0.5) 
+
+    confidence = "%.2f" % confidence
+
+    # Return JSON:
+    return jsonify(text=text, label=l, confidence=confidence)
 
 
 if __name__ == "__main__":

@@ -25,6 +25,9 @@ def score_politeness(text):
     probs = {"impolite": probs[0], "polite": probs[1]}
     return probs
 
+def check_is_request():
+	return vectorizer.is_request()
+
 
 
 

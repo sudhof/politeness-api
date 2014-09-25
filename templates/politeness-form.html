@@ -12,7 +12,7 @@
     <style>
       .white-bg { background: #ffffff !important; }
       .label { padding: 5px !important;}
-
+      #not-request { margin-top: 7px; }
 
     </style>
 
@@ -27,6 +27,13 @@
         <h1>Would you mind checking out <br /> this politeness model we built?</h1>
         <h4>Our model automatically measures the politeness of requests. <br />
           Try it below, and read more about our work <a href="http://www.mpi-sws.org/~cristian/Politeness.html">here</a>.</h4>
+
+        {% if off_mpi_flag %}
+        <h4>
+        <big><span class="label label-warning">This is a debugging site. Please visit <a href="http://politeness.mpi-sws.org">politeness.mpi-sws.org</a></span></big>     
+        </h4>  
+        {% endif %}
+
         <br />
       </div>
 
@@ -49,9 +56,18 @@
                     <div>
                       <big><span id="label" class="label text-capitalize">polite</span></big> &nbsp;
                       <big><span id="confidence" class="label label-info">Confidence: 0.0</span></big>
+                      
+                      <br />
+                      <smaller><span id="not-request" class="label label-warning">It looks like this may not be a request. The algorithm's results may be inaccurate.</span></smaller>
                     </div>
                 </div>
               </div>
+
+              <!--div id="isrequest-box" class="row">
+                <div class="well well-kg white-bg">
+                    <smaller>"This does not sound like a request.  The algorithm's results might be inaccurate." </smaller>
+                </div>
+              </div-->
 
         </div>
       </div>
@@ -65,7 +81,7 @@
           <p>Thank you for the response. Would you be willing to add a few more details to explain further?</p>
           <div>
             <span class="label label-success text-capitalize"><big>polite</big></span> &nbsp;
-            <span class="label label-info"><big>Algorithm's Confidence: 0.97</big></span>
+            <span class="label label-info"><big>Algorithm's Confidence: 97&#37;</big></span>
           </div>
       </div>
     </div>   
@@ -74,7 +90,7 @@
           <p>That's the only answer you have? seriously? can't you do better?</p>
           <div>
             <span class="label label-danger text-capitalize"><big>impolite</big></span> &nbsp;
-            <span class="label label-info"><big>Algorithm's Confidence: 0.79</big></span>
+            <span class="label label-info"><big>Algorithm's Confidence: 79&#37;</big></span>
           </div>
       </div>   
     </div>   
@@ -83,7 +99,7 @@
           <p>How many times do i have to revert you before you stop? do you want to get blocked?</p>
           <div>
             <span class="label label-danger text-capitalize"><big>impolite</big></span> &nbsp;
-            <span class="label label-info"><big>Algorithm's Confidence: 0.72</big></span>
+            <span class="label label-info"><big>Algorithm's Confidence: 72&#37;</big></span>
           </div>
       </div>    
     </div>   
@@ -92,7 +108,7 @@
           <p>Splendid work so far! do you have a copy of that reference or should I just use the library's?</p>
           <div>
             <big><span class="label label-success text-capitalize">polite</span></big> &nbsp;
-            <span class="label label-info"><big>Algorithm's Confidence: 0.73</big></span>
+            <span class="label label-info"><big>Algorithm's Confidence: 73&#37;</big></span>
           </div>
       </div>
     </div>   
@@ -116,6 +132,8 @@
       $("#result-box").hide();
       
       $("#form-submit").click(function(e) {
+        $("#not-request").hide();
+        
         e.preventDefault();
         var l = Ladda.create(this);
         l.start();
@@ -143,6 +161,10 @@
             $("#scored-txt").html(data.text);
 
             $("#result-box").slideDown();
+
+            if (!data.isrequest) {
+              $("#not-request").slideDown();
+            }
 
           }
         }).always(function() { l.stop(); });

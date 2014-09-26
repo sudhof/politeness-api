@@ -12,8 +12,13 @@
     <style>
       .white-bg { background: #ffffff !important; }
       .label { padding: 5px !important;}
-      #not-request { margin-top: 7px; }
-
+      #not-request { margin-top: 7px; margin-bottom: 7px; }
+      #reclassification-box { display: inline; float: right; padding: 0px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; margin-bottom: 0px;}
+      #model-result-box { display: inline; float: left; }
+      .clear {width: 100%; clear: both; height: 0px; line-height:0px;}
+      /*#reclassification-span { padding: 6px !important; }*/
+      .label-grey { background-color: #EEEEEE; color: #7B7B7B; }
+      .btn-mini { padding: 2px 6px; font-size: 11px; line-height: 13px; }
     </style>
 
   </head>
@@ -41,7 +46,7 @@
         <div class="jumbotron">
               <form class="form-horizontal" id="inputform" role="form" action="/score-politeness" method="post">
                 <div class="form-group">
-                  <label for="textinput">Try the model here</label>
+                  <label for="textinput">Enter your request here</label>
                     <textarea class="form-control" id="textinput" name="text" rows="5" placeholder="Enter a request..."></textarea>
                 </div>
 
@@ -50,24 +55,34 @@
               </div>
               </form>
 
+
               <div id="result-box" class="row">
                 <div class="well well-kg white-bg">
                     <p id="scored-txt"></p>
-                    <div>
+                    <br />
+                    <div id="model-result-box">
                       <big><span id="label" class="label text-capitalize">polite</span></big> &nbsp;
-                      <big><span id="confidence" class="label label-info">Confidence: 0.0</span></big>
-                      
+                      <big><span id="confidence" class="label label-info">Confidence: 0</span></big>
                       <br />
-                      <smaller><span id="not-request" class="label label-warning">It looks like this may not be a request. The algorithm's results may be inaccurate.</span></smaller>
+                      <smaller><span id="not-request" class="label label-grey">It looks like this may not be a request. The algorithm's results may be inaccurate.</span></smaller>
+                      <br />
+
+
+                      <span id="reclassification-ack" class="label label-grey">
+                        Thank you for helping improve our model
+                      </span>
+
+
+                      <span id="reclassification-span" class="label label-grey">
+                        <span>Is the model wrong? Help us improve! Is this request actually ... </span> &nbsp;
+                            <button type="button" id="reclass-opt1" name="label" value="neutral" class="btn btn-mini reclass-btn text-capitalize">Neutral</button>
+                            <button type="button" id="reclass-opt2" name="label" value="polite" class="btn btn-mini btn-success reclass-btn text-capitalize">Polite</button>
+                      </span>
+
                     </div>
+                  <div class="clear"></div>
                 </div>
               </div>
-
-              <!--div id="isrequest-box" class="row">
-                <div class="well well-kg white-bg">
-                    <smaller>"This does not sound like a request.  The algorithm's results might be inaccurate." </smaller>
-                </div>
-              </div-->
 
         </div>
       </div>
@@ -129,21 +144,41 @@
 
     $(document).ready(function() {
 
+      function submit_reclassification(e) {
+        e.preventDefault();
+        var label = this.value;
+        var text = $("#scored-txt").html();
+        $.ajax({
+          type: "POST",
+          url: "/submit-reclassification",
+          data: {'label': label, 'text': text},
+          success: function(data) {
+
+            $("#reclassification-span").fadeOut()
+            $("#reclassification-ack").fadeIn()
+
+          }});
+        }
+
+
+      $(".reclass-btn").click(submit_reclassification);
       $("#result-box").hide();
-      
+
+
       $("#form-submit").click(function(e) {
-        $("#not-request").hide();
-        
         e.preventDefault();
         var l = Ladda.create(this);
         l.start();
         var form_data = $("#inputform").serialize();
-        console.log(form_data);
         $.ajax({
           type: "POST",
           url: "/score-politeness",
           data: form_data,
           success: function(data) {
+            // hide stuff we may have shown and vice versa
+            $("#not-request").hide();
+            $("#reclassification-ack").hide();
+            $("#reclassification-span").show();
 
             var labelclass = "label-success";
             if (data.label == "neutral") {
@@ -165,6 +200,29 @@
             if (!data.isrequest) {
               $("#not-request").slideDown();
             }
+
+            // allow reclassification
+            var opt1 = "polite";
+            var opt2 = "neutral";
+            var class1 = "btn-success";
+            var class2 = "btn-warning";
+            if (data.label == "polite") {
+              opt1 = "neutral";
+              opt2 = "impolite";
+              class1 = "btn-warning";
+              class2 = "btn-danger";
+            } else if (data.label == "neutral") {
+              opt2 = "impolite";
+              class2 = "btn-danger";
+            }
+
+            $("#reclass-opt1").html(opt1);
+            $("#reclass-opt1").attr("value", opt1);
+            $("#reclass-opt1").removeClass("btn-warning btn-danger btn-success").addClass(class1);
+
+            $("#reclass-opt2").html(opt2);
+            $("#reclass-opt2").attr("value", opt2);
+            $("#reclass-opt2").removeClass("btn-warning btn-danger btn-success").addClass(class2);
 
           }
         }).always(function() { l.stop(); });

@@ -75,10 +75,13 @@
                       </span>
 
 
-                      <span id="reclassification-span" class="label label-grey">
-                        <span>Is the model wrong? Help us improve! Is this utterance actually ... </span> &nbsp;
+                        <span>
+                          <!--Is the model wrong? Help us improve! Is this utterance actually ...-->
+                        Politeness is a subtle and subjective phenomenon.  Help improve the model.  Do you think this utterance is:
+                        </span> &nbsp;
                             <button type="button" id="reclass-opt1" name="label" value="neutral" class="btn btn-mini reclass-btn text-capitalize">Neutral</button>
                             <button type="button" id="reclass-opt2" name="label" value="polite" class="btn btn-mini btn-success reclass-btn text-capitalize">Polite</button>
+                            <button type="button" id="reclass-opt3" name="label" value="impolite" class="btn btn-mini btn-warning reclass-btn text-capitalize">Impolite</button>
                       </span>
 
                     </div>
@@ -206,17 +209,19 @@
             // allow reclassification
             var opt1 = "polite";
             var opt2 = "neutral";
+            var opt2 = "impolite";
             var class1 = "btn-success";
             var class2 = "btn-warning";
-            if (data.label == "polite") {
-              opt1 = "neutral";
-              opt2 = "impolite";
-              class1 = "btn-warning";
-              class2 = "btn-danger";
-            } else if (data.label == "neutral") {
-              opt2 = "impolite";
-              class2 = "btn-danger";
-            }
+            var class3 = "btn-danger";
+//            if (data.label == "polite") {
+//              opt1 = "neutral";
+//              opt2 = "impolite";
+//              class1 = "btn-warning";
+//              class2 = "btn-danger";
+//            } else if (data.label == "neutral") {
+//              opt2 = "impolite";
+//              class2 = "btn-danger";
+//            }
 
             $("#reclass-opt1").html(opt1);
             $("#reclass-opt1").attr("value", opt1);
@@ -225,6 +230,11 @@
             $("#reclass-opt2").html(opt2);
             $("#reclass-opt2").attr("value", opt2);
             $("#reclass-opt2").removeClass("btn-warning btn-danger btn-success").addClass(class2);
+
+//added to allow users to agree with our label
+            $("#reclass-opt3").html(opt3);
+            $("#reclass-opt3").attr("value", opt3);
+            $("#reclass-opt3").removeClass("btn-warning btn-danger btn-success").addClass(class3);
 
           }
         }).always(function() { l.stop(); });

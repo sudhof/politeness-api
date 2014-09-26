@@ -81,7 +81,6 @@ def submit_reclassification():
     text = request.form['text']
     label = request.form['label']
     add_reclassification(text, label)
-    print_all_reclassifications()
     return jsonify(success=True)
 
 

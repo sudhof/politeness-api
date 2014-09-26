@@ -52,6 +52,9 @@ def print_all_reclassifications():
 
 def add_reclassification(text, label):
     rec = Reclassification(text, label)
+    # unfortunate hack
+    if HOST == "heroku":
+        db.create_all()
     db.session.add(rec)
     db.session.commit()
 
